@@ -23,19 +23,20 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.MyOpenFileDialog = New System.Windows.Forms.OpenFileDialog()
-        Me.SelectFileButton = New System.Windows.Forms.Button()
+        Me.MainButton = New System.Windows.Forms.Button()
         Me.ResultDataGridView = New System.Windows.Forms.DataGridView()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.FilePathText = New System.Windows.Forms.Label()
+        Me.StatusText = New System.Windows.Forms.Label()
+        Me.ValidateBackgroundWorker = New System.ComponentModel.BackgroundWorker()
+        Me.ParsingBackgroundWorker = New System.ComponentModel.BackgroundWorker()
+        Me.UpdateDBBackgroundWorker = New System.ComponentModel.BackgroundWorker()
         Me.CODART = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DESCART = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.PRCVENTA = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.PRCCOMPRA = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TIPIVA_ORD21 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Action = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.FilePathText = New System.Windows.Forms.Label()
-        Me.StatusText = New System.Windows.Forms.Label()
-        Me.MyBackgroundWorker = New System.ComponentModel.BackgroundWorker()
         CType(Me.ResultDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -43,31 +44,73 @@ Partial Class Form1
         '
         Me.MyOpenFileDialog.FileName = "MyOpenFileDialogFileName"
         '
-        'SelectFileButton
+        'MainButton
         '
-        Me.SelectFileButton.Location = New System.Drawing.Point(12, 12)
-        Me.SelectFileButton.Name = "SelectFileButton"
-        Me.SelectFileButton.Size = New System.Drawing.Size(94, 61)
-        Me.SelectFileButton.TabIndex = 0
-        Me.SelectFileButton.Text = "Select File"
-        Me.SelectFileButton.UseVisualStyleBackColor = True
+        Me.MainButton.Location = New System.Drawing.Point(12, 12)
+        Me.MainButton.Name = "MainButton"
+        Me.MainButton.Size = New System.Drawing.Size(94, 61)
+        Me.MainButton.TabIndex = 0
+        Me.MainButton.Text = "Select File"
+        Me.MainButton.UseVisualStyleBackColor = True
         '
         'ResultDataGridView
         '
         Me.ResultDataGridView.AllowUserToAddRows = False
         Me.ResultDataGridView.AllowUserToDeleteRows = False
+        Me.ResultDataGridView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ResultDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.ResultDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.ResultDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.CODART, Me.DESCART, Me.PRCVENTA, Me.PRCCOMPRA, Me.TIPIVA_ORD21, Me.DataGridViewTextBoxColumn1, Me.Action})
-        Me.ResultDataGridView.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ResultDataGridView.Location = New System.Drawing.Point(0, 83)
+        Me.ResultDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.CODART, Me.DESCART, Me.PRCVENTA, Me.PRCCOMPRA, Me.TIPIVA_ORD21, Me.Action})
+        Me.ResultDataGridView.Location = New System.Drawing.Point(12, 83)
         Me.ResultDataGridView.MultiSelect = False
         Me.ResultDataGridView.Name = "ResultDataGridView"
         Me.ResultDataGridView.ReadOnly = True
         Me.ResultDataGridView.RowHeadersWidth = 51
         Me.ResultDataGridView.RowTemplate.Height = 29
-        Me.ResultDataGridView.Size = New System.Drawing.Size(1176, 367)
+        Me.ResultDataGridView.Size = New System.Drawing.Size(1067, 450)
         Me.ResultDataGridView.TabIndex = 1
+        '
+        'Panel1
+        '
+        Me.Panel1.Location = New System.Drawing.Point(1448, 28)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(8, 8)
+        Me.Panel1.TabIndex = 2
+        '
+        'FilePathText
+        '
+        Me.FilePathText.AutoSize = True
+        Me.FilePathText.Location = New System.Drawing.Point(112, 12)
+        Me.FilePathText.Name = "FilePathText"
+        Me.FilePathText.Size = New System.Drawing.Size(64, 20)
+        Me.FilePathText.TabIndex = 3
+        Me.FilePathText.Text = "File Path"
+        '
+        'StatusText
+        '
+        Me.StatusText.AutoSize = True
+        Me.StatusText.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.StatusText.Location = New System.Drawing.Point(112, 45)
+        Me.StatusText.Name = "StatusText"
+        Me.StatusText.Size = New System.Drawing.Size(231, 28)
+        Me.StatusText.TabIndex = 5
+        Me.StatusText.Text = "Process Status: Select File"
+        '
+        'ValidateBackgroundWorker
+        '
+        Me.ValidateBackgroundWorker.WorkerSupportsCancellation = True
+        '
+        'ParsingBackgroundWorker
+        '
+        Me.ParsingBackgroundWorker.WorkerReportsProgress = True
+        Me.ParsingBackgroundWorker.WorkerSupportsCancellation = True
+        '
+        'UpdateDBBackgroundWorker
+        '
+        Me.UpdateDBBackgroundWorker.WorkerReportsProgress = True
+        Me.UpdateDBBackgroundWorker.WorkerSupportsCancellation = True
         '
         'CODART
         '
@@ -99,17 +142,10 @@ Partial Class Form1
         '
         'TIPIVA_ORD21
         '
-        Me.TIPIVA_ORD21.HeaderText = "Tipo Iva (TIPIVA/ORD21 - OPCIONAL)"
+        Me.TIPIVA_ORD21.HeaderText = "Tipo Iva (TIPIVA - OPCIONAL)"
         Me.TIPIVA_ORD21.MinimumWidth = 6
         Me.TIPIVA_ORD21.Name = "TIPIVA_ORD21"
         Me.TIPIVA_ORD21.ReadOnly = True
-        '
-        'DataGridViewTextBoxColumn1
-        '
-        Me.DataGridViewTextBoxColumn1.HeaderText = "Tipo Iva (TIPIVA/ORD21 - OPCIONAL)"
-        Me.DataGridViewTextBoxColumn1.MinimumWidth = 6
-        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-        Me.DataGridViewTextBoxColumn1.ReadOnly = True
         '
         'Action
         '
@@ -118,42 +154,16 @@ Partial Class Form1
         Me.Action.Name = "Action"
         Me.Action.ReadOnly = True
         '
-        'Panel1
-        '
-        Me.Panel1.Location = New System.Drawing.Point(1448, 28)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(8, 8)
-        Me.Panel1.TabIndex = 2
-        '
-        'FilePathText
-        '
-        Me.FilePathText.AutoSize = True
-        Me.FilePathText.Location = New System.Drawing.Point(112, 12)
-        Me.FilePathText.Name = "FilePathText"
-        Me.FilePathText.Size = New System.Drawing.Size(64, 20)
-        Me.FilePathText.TabIndex = 3
-        Me.FilePathText.Text = "File Path"
-        '
-        'StatusText
-        '
-        Me.StatusText.AutoSize = True
-        Me.StatusText.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.StatusText.Location = New System.Drawing.Point(112, 45)
-        Me.StatusText.Name = "StatusText"
-        Me.StatusText.Size = New System.Drawing.Size(231, 28)
-        Me.StatusText.TabIndex = 5
-        Me.StatusText.Text = "Process Status: Select File"
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1176, 450)
+        Me.ClientSize = New System.Drawing.Size(1091, 545)
         Me.Controls.Add(Me.StatusText)
         Me.Controls.Add(Me.FilePathText)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.ResultDataGridView)
-        Me.Controls.Add(Me.SelectFileButton)
+        Me.Controls.Add(Me.MainButton)
         Me.Name = "Form1"
         Me.Text = "File To Article Parsing"
         CType(Me.ResultDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
@@ -163,17 +173,18 @@ Partial Class Form1
     End Sub
 
     Friend WithEvents MyOpenFileDialog As OpenFileDialog
-    Friend WithEvents SelectFileButton As Button
+    Friend WithEvents MainButton As Button
     Friend WithEvents ResultDataGridView As DataGridView
     Friend WithEvents Panel1 As Panel
     Friend WithEvents FilePathText As Label
     Friend WithEvents StatusText As Label
+    Friend WithEvents ValidateBackgroundWorker As System.ComponentModel.BackgroundWorker
+    Friend WithEvents ParsingBackgroundWorker As System.ComponentModel.BackgroundWorker
+    Friend WithEvents UpdateDBBackgroundWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents CODART As DataGridViewTextBoxColumn
     Friend WithEvents DESCART As DataGridViewTextBoxColumn
     Friend WithEvents PRCVENTA As DataGridViewTextBoxColumn
     Friend WithEvents PRCCOMPRA As DataGridViewTextBoxColumn
     Friend WithEvents TIPIVA_ORD21 As DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents Action As DataGridViewTextBoxColumn
-    Friend WithEvents MyBackgroundWorker As System.ComponentModel.BackgroundWorker
 End Class

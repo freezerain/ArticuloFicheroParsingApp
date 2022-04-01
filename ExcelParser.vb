@@ -1,15 +1,13 @@
 ﻿Imports ClosedXML.Excel
 Public Class ExcelParser
-    Private CodArtCol, DescArtCol, PrcVentaCol, PrcCompraCol, TipIvaCol As List(Of String)
+    Public CodArtCol, DescArtCol, PrcVentaCol, PrcCompraCol, TipIvaCol As List(Of String)
     Public Sub New(FilePath As String)
         ValidateFile(FilePath)
     End Sub
-
     Private Sub ValidateFile(FilePath As String)
         Dim wb = New XLWorkbook(FilePath)
         Dim ws = wb.Worksheets.First
         Dim cols = ws.Columns().ToList()
-        Threading.Thread.Sleep(3000)
         For i As Integer = 0 To cols.Count - 1
             Dim ColHeader = cols(i).FirstCell.Value.ToString
             Select Case ColHeader
@@ -20,11 +18,16 @@ Public Class ExcelParser
                 Case "PRCVENTA"
                     PrcVentaCol = cols(i).Cells.Select(Of String)(Function(c) c.Value.ToString).Skip(1).ToList
                 Case "PRCCOMPRA"
-                    PrcCompraCol = cols(i).Cells.Select(Of String)(Function(c) c.Value.ToString).Skip(1).ToList
+                    PrcCompraCol = cols(i).AsRange.Cells().Select(Of String)(Function(c) c.Value.ToString).Skip(1).ToList
                 Case "TIPIVA"
-                    TipIvaCol = cols(i).Cells.Select(Of String)(Function(c) c.Value.ToString).Skip(1).ToList
+                    TipIvaCol = cols(i).AsRange.Cells.Select(Of String)(Function(c) c.Value.ToString).Skip(1).ToList
             End Select
         Next
+        PrcCompraCol = PrcCompraCol.Take(CodArtCol.Count).ToList
+        TipIvaCol = TipIvaCol.Take(CodArtCol.Count).ToList
+
+
+
         If CodArtCol Is Nothing Or
             DescArtCol Is Nothing Or
             PrcVentaCol Is Nothing Or
@@ -40,11 +43,4 @@ Public Class ExcelParser
         End If
     End Sub
 
-    Public Function GetArticleDTO() As ArticleDTO()
-        Dim ArticleArr = New ArticleDTO(CodArtCol.Count) {}
-        For i As Integer = 0 To CodArtCol.Count
-            ArticleArr(i) = New ArticleDTO(CodArtCol(i), DescArtCol(i), PrcVentaCol(i), PrcCompraCol(i), TipIvaCol(i))
-        Next
-        Return ArticleArr
-    End Function
 End Class
