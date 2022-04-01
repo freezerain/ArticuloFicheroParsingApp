@@ -1,4 +1,7 @@
-﻿Public Class ParsingWorker
+﻿''This Worker is responsable for parsing String arrays recieved from file to 
+'' actuall objects of "ArticleDTO.vb"
+Public Class ParsingWorker
+    ''need reference for callbacks
     Private Form As Form1
     Public WithEvents WorkerInstance As New System.ComponentModel.BackgroundWorker
     Public Sub New(Form As Form1)
@@ -22,10 +25,9 @@
             ArticleArr(i) = nextArticle
             LocalWorker.ReportProgress(CInt(100 * i / Parser.CodArtCol.Count), nextArticle)
         Next
-
         e.Result = ArticleArr
     End Sub
-
+    ''Worker handlers
     Private Sub ValidateCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles WorkerInstance.RunWorkerCompleted
         If e.Cancelled Then
             Form.SetStartState()
@@ -40,7 +42,7 @@
     Private Sub UpdateHandler(sender As Object, e As ComponentModel.ProgressChangedEventArgs) Handles WorkerInstance.ProgressChanged
         Form.UpdateParsingProgress(e.ProgressPercentage, e.UserState)
     End Sub
-
+    ''Wrapper around arguments for this worker
     Public Class ParsingArguments
         Public Parser As ExcelParser
         Public Sub New(Parser As ExcelParser)

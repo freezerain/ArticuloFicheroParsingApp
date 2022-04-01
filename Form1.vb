@@ -2,11 +2,12 @@
     Public vWorker = New ValidatingWorker(Me)
     Public pWorker = New ParsingWorker(Me)
     Public uWorker = New UpdatingWorker(Me)
+    ''Entry point
     Public Sub New()
         InitializeComponent()
         SetStartState()
     End Sub
-
+    ''Events
     Private Sub SelectFileEvent(sender As Object, e As EventArgs)
         If MyOpenFileDialog.ShowDialog <> DialogResult.Cancel Then
             SetWorkingState(MyOpenFileDialog.FileName)
@@ -23,7 +24,7 @@
             uWorker.WorkerInstance.CancelAsync()
         End If
     End Sub
-
+    ''UI states
     Public Sub SetStartState()
         Me.FilePathText.Text = "Please select a excel table"
         Me.StatusText.Text = "Waiting for file..."
@@ -52,7 +53,7 @@
                "Updated: " & articleUpdated & vbCrLf &
                "Failed: " & articleFailed)
     End Sub
-
+    ''Actions
     Public Sub StartValidating(FilePath As String)
         vWorker.WorkerInstance.RunWorkerAsync(New ValidatingWorker.ValidatingArguments(FilePath))
     End Sub
@@ -84,6 +85,7 @@
         Next
         SetFinishState(created, updated, failed)
     End Sub
+    ''Progress update events
     Public Sub UpdateDBProgress(progress As Integer, Article As ArticleDTO)
         Me.StatusText.Text = "Updating DB: " & progress & "%"
         ''TODO Update Data Grid Views

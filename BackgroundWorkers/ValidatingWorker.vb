@@ -1,4 +1,5 @@
-﻿Public Class ValidatingWorker
+﻿''This worker responsable for invoking I/O actions with excel file
+Public Class ValidatingWorker
     Private Form As Form1
     Public WithEvents WorkerInstance As New System.ComponentModel.BackgroundWorker
     Public Sub New(Form As Form1)
@@ -20,7 +21,7 @@
         End If
         e.Result = Parser
     End Sub
-
+    ''Worker handlers
     Private Sub ValidateCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles WorkerInstance.RunWorkerCompleted
         If e.Cancelled Then
             Form.SetStartState()
@@ -31,7 +32,7 @@
             Form.StartParsing(e.Result)
         End If
     End Sub
-
+    ''Wrapper around arguments for this worker
     Public Class ValidatingArguments
         Public FilePath As String
         Public Sub New(FilePath As String)

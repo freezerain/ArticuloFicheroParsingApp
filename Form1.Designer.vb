@@ -25,18 +25,15 @@ Partial Class Form1
         Me.MyOpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.MainButton = New System.Windows.Forms.Button()
         Me.ResultDataGridView = New System.Windows.Forms.DataGridView()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.FilePathText = New System.Windows.Forms.Label()
-        Me.StatusText = New System.Windows.Forms.Label()
-        Me.ValidateBackgroundWorker = New System.ComponentModel.BackgroundWorker()
-        Me.ParsingBackgroundWorker = New System.ComponentModel.BackgroundWorker()
-        Me.UpdateDBBackgroundWorker = New System.ComponentModel.BackgroundWorker()
         Me.CODART = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DESCART = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.PRCVENTA = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.PRCCOMPRA = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.TIPIVA_ORD21 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Action = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.FilePathText = New System.Windows.Forms.Label()
+        Me.StatusText = New System.Windows.Forms.Label()
         CType(Me.ResultDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -69,48 +66,8 @@ Partial Class Form1
         Me.ResultDataGridView.ReadOnly = True
         Me.ResultDataGridView.RowHeadersWidth = 51
         Me.ResultDataGridView.RowTemplate.Height = 29
-        Me.ResultDataGridView.Size = New System.Drawing.Size(1067, 450)
+        Me.ResultDataGridView.Size = New System.Drawing.Size(1071, 466)
         Me.ResultDataGridView.TabIndex = 1
-        '
-        'Panel1
-        '
-        Me.Panel1.Location = New System.Drawing.Point(1448, 28)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(8, 8)
-        Me.Panel1.TabIndex = 2
-        '
-        'FilePathText
-        '
-        Me.FilePathText.AutoSize = True
-        Me.FilePathText.Location = New System.Drawing.Point(112, 12)
-        Me.FilePathText.Name = "FilePathText"
-        Me.FilePathText.Size = New System.Drawing.Size(64, 20)
-        Me.FilePathText.TabIndex = 3
-        Me.FilePathText.Text = "File Path"
-        '
-        'StatusText
-        '
-        Me.StatusText.AutoSize = True
-        Me.StatusText.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.StatusText.Location = New System.Drawing.Point(112, 45)
-        Me.StatusText.Name = "StatusText"
-        Me.StatusText.Size = New System.Drawing.Size(231, 28)
-        Me.StatusText.TabIndex = 5
-        Me.StatusText.Text = "Process Status: Select File"
-        '
-        'ValidateBackgroundWorker
-        '
-        Me.ValidateBackgroundWorker.WorkerSupportsCancellation = True
-        '
-        'ParsingBackgroundWorker
-        '
-        Me.ParsingBackgroundWorker.WorkerReportsProgress = True
-        Me.ParsingBackgroundWorker.WorkerSupportsCancellation = True
-        '
-        'UpdateDBBackgroundWorker
-        '
-        Me.UpdateDBBackgroundWorker.WorkerReportsProgress = True
-        Me.UpdateDBBackgroundWorker.WorkerSupportsCancellation = True
         '
         'CODART
         '
@@ -154,11 +111,37 @@ Partial Class Form1
         Me.Action.Name = "Action"
         Me.Action.ReadOnly = True
         '
+        'Panel1
+        '
+        Me.Panel1.Location = New System.Drawing.Point(1448, 28)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(8, 8)
+        Me.Panel1.TabIndex = 2
+        '
+        'FilePathText
+        '
+        Me.FilePathText.AutoSize = True
+        Me.FilePathText.Location = New System.Drawing.Point(112, 12)
+        Me.FilePathText.Name = "FilePathText"
+        Me.FilePathText.Size = New System.Drawing.Size(64, 20)
+        Me.FilePathText.TabIndex = 3
+        Me.FilePathText.Text = "File Path"
+        '
+        'StatusText
+        '
+        Me.StatusText.AutoSize = True
+        Me.StatusText.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.StatusText.Location = New System.Drawing.Point(112, 45)
+        Me.StatusText.Name = "StatusText"
+        Me.StatusText.Size = New System.Drawing.Size(231, 28)
+        Me.StatusText.TabIndex = 5
+        Me.StatusText.Text = "Process Status: Select File"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1091, 545)
+        Me.ClientSize = New System.Drawing.Size(1095, 561)
         Me.Controls.Add(Me.StatusText)
         Me.Controls.Add(Me.FilePathText)
         Me.Controls.Add(Me.Panel1)
@@ -178,9 +161,6 @@ Partial Class Form1
     Friend WithEvents Panel1 As Panel
     Friend WithEvents FilePathText As Label
     Friend WithEvents StatusText As Label
-    Friend WithEvents ValidateBackgroundWorker As System.ComponentModel.BackgroundWorker
-    Friend WithEvents ParsingBackgroundWorker As System.ComponentModel.BackgroundWorker
-    Friend WithEvents UpdateDBBackgroundWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents CODART As DataGridViewTextBoxColumn
     Friend WithEvents DESCART As DataGridViewTextBoxColumn
     Friend WithEvents PRCVENTA As DataGridViewTextBoxColumn
